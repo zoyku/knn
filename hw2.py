@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 
@@ -30,7 +29,6 @@ def distance_function(x, y, method):
     elif method == 'chebyshev':
         return chebyshev_distance(x, y)
     
-
 
 def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
         distance_method: str, re_training: bool, distance_threshold: float, weighted_voting: bool):
@@ -84,12 +82,15 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
 
         if count_label0 > count_label1:
             predictions.append(0)
-            print("0")
+            # print("0")
         else:
             predictions.append(1)
-            print("1")
+            # print("1")
 
-    return 0
+    series_prediction = pd.Series(predictions) 
+    print(series_prediction)
+
+    return series_prediction
 
 
 def fill_missing_features(existing_data: pd.DataFrame, test_data: pd.DataFrame,
@@ -110,6 +111,7 @@ def fill_missing_features(existing_data: pd.DataFrame, test_data: pd.DataFrame,
 
     return 0
 
+
 def main():
 
     train_data = pd.read_csv('train_normalized_v2.csv')
@@ -122,14 +124,13 @@ def main():
     distance_threshold = None 
     weighted_voting = False 
 
-    # knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
+    knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
     # predictions = knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
     # print("kNN Predictions:", predictions)
 
-    fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
+    # fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
     # filled_data = fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
     # print("Filled Test Data:", filled_data)
-
 
 
 if __name__ == "__main__":
