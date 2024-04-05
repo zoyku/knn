@@ -63,8 +63,8 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
         
         neighbors = distance_with_labels[:k]
 
-        count1 = 0
-        count2 = 0
+        count_label0 = 0
+        count_label1 = 0
 
         if weighted_voting:
             for x in neighbors:
@@ -72,17 +72,17 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
     
             for d in neighbors:
                 if d[1] == 0:
-                    count1 += d[0]
+                    count_label0 += d[0]
                 elif d[1] == 1:
-                    count2 += d[0]
+                    count_label1 += d[0]
         else:
             for d in neighbors:
                 if d[1] == 0:
-                    count1 += 1
+                    count_label0 += 1
                 elif d[1] == 1:
-                    count2 += 1
+                    count_label1 += 1
 
-        if count1 > count2:
+        if count_label0 > count_label1:
             predictions.append(0)
             print("0")
         else:
@@ -95,6 +95,19 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
 def fill_missing_features(existing_data: pd.DataFrame, test_data: pd.DataFrame,
                             k: int, distance_method: str, distance_threshold: float, weighted_voting: bool):
     
+    for index, test_row in test_data.iterrows():
+        distance_with_labels = []
+        missing_features = test_row[test_row.isna()].index
+        modified_test_row = test_row.drop(columns=[missing_features])
+        for index, train_row in existing_data.iterrows():
+            modified_train_row = train_row.drop(columns=[missing_features])
+            distance = distance_function(modified_train_row, modified_test_row, distance_method)
+            distance_with_labels.append((distance, train_row[0]))
+
+        distance_with_labels = sorted(distance_with_labels, key=lambda x: x[0])
+ 
+       # TODO: Implement the rest of the function 
+
     return 0
 
 def main():
@@ -109,7 +122,7 @@ def main():
     distance_threshold = None 
     weighted_voting = False 
 
-    knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
+    # knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
     # predictions = knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
     # print("kNN Predictions:", predictions)
 
