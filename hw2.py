@@ -111,7 +111,8 @@ def fill_missing_features(existing_data: pd.DataFrame, test_data: pd.DataFrame,
         missing_features = test_row[test_row.isna()].index[0]
         modified_test_row = test_row.drop(columns=[missing_features])
         for index_train, train_row in existing_data.iterrows():
-            distance = distance_function(train_row, modified_test_row, distance_method)
+            modified_train_row = test_row.drop(columns=[missing_features])
+            distance = distance_function(modified_train_row, modified_test_row, distance_method)
             distance_with_labels.append((distance, train_row[0], index_train))
 
         distance_with_labels = sorted(distance_with_labels, key=lambda x: x[0])
@@ -158,13 +159,13 @@ def fill_missing_features(existing_data: pd.DataFrame, test_data: pd.DataFrame,
         else:
             test_data_with_missing_features_label = 1
 
-        if test_data_with_missing_features_label == test_row[0]:
+        """if test_data_with_missing_features_label == test_row[0]:
             test_row[missing_features] = 0
             test_data.loc[index_test] = test_row
-        else:
-            imputed_value = np.mean(existing_data.iloc[neighbors_indices, int(missing_features[1:])])
-            test_row[missing_features] = imputed_value
-            test_data.loc[index_test] = test_row
+        else:"""
+        imputed_value = np.mean(existing_data.iloc[neighbors_indices, int(missing_features[1:])])
+        test_row[missing_features] = imputed_value
+        test_data.loc[index_test] = test_row
         
     return test_data
 
