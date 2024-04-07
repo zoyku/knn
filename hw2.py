@@ -185,9 +185,9 @@ def main():
     # knn(train_data, test_data, k, distance_method, re_training, distance_threshold, weighted_voting)
 
     # fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
-    filled_data = fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
+    # filled_data = fill_missing_features(train_data, test_with_missing, k, distance_method, distance_threshold, weighted_voting)
     # print(filled_data)
-    knn(train_data, filled_data, k, distance_method, re_training, distance_threshold, weighted_voting)
+    # knn(train_data, filled_data, k, distance_method, re_training, distance_threshold, weighted_voting)
 
 
 if __name__ == "__main__":
