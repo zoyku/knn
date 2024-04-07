@@ -65,10 +65,12 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
         count_label1 = 0
 
         if weighted_voting:
+            neighbors_weigthed = []
             for x in neighbors:
-                x[0] = 1 / (x[0])**2
+                d = 1 / (x[0])**2
+                neighbors_weigthed.append((d, x[1]))
     
-            for d in neighbors:
+            for d in neighbors_weigthed:
                 if d[1] == 0:
                     count_label0 += d[0]
                 elif d[1] == 1:
@@ -82,13 +84,13 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
 
         if count_label0 > count_label1:
             predictions.append(0)
-            # print("0")
+            print("0")
         else:
             predictions.append(1)
-            # print("1")
+            print("1")
 
     series_prediction = pd.Series(predictions) 
-    print(series_prediction)
+    # print(series_prediction)
 
     return series_prediction
 
