@@ -84,10 +84,10 @@ def knn(existing_data: pd.DataFrame, test_data: pd.DataFrame, k: int,
 
         if count_label0 > count_label1:
             predictions.append(0)
-            print("0")
+            # print("0")
         else:
             predictions.append(1)
-            print("1")
+            # print("1")
 
     series_prediction = pd.Series(predictions) 
     # print(series_prediction)
